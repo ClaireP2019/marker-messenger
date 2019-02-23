@@ -73,21 +73,39 @@ const db = client.db('marker-messenger');
       db.collection('messages').insertOne({
         name: name,
         message: message
-      })
-
-      // const message = { text: req.body.name, title: req.body.message };
-      // db.insert(note, (err, result) => {
-      //   if (err) {
-      //     res.send({ 'error': 'An error has occurred' });
-      //   } else {
-      //     res.send(result.ops[0]);
-      //   }
-      // });
+      });
 
     });
 
     // ⭐️ TO-DO 11 ⭐️
     // Get the existing messages from the collection
+    chat.find().toArray(function(err, messagesArray){
+      console.log(messagesArray)
+
+      if(err){
+        console.log('There was an error retrieving messages \n', err)
+      } else {
+
+      socket.emit('output', messagesArray);
+
+      }
+    });
+
+    socket.on('output', function(messagesArray){
+
+    console.log(messagesArray);
+
+    for(let i = 0; i < messagesArray.length; i++){
+
+      var message = document.createElement('div');
+      message.textContext = messagesArray[i].name + ": "  + messagesArray[i].message;
+      messages.appendChild(message);
+    }
+
+
+
+});
+
 
     });
   });
