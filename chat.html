@@ -102,6 +102,21 @@ textarea.addEventListener('keydown', function(event){
 					// ⭐️ TO-DO 12 ⭐️
 					 // Handle Output
 
+					 socket.on('output', function(messagesArray){
+
+					 console.log(messagesArray);
+
+					 for(let i = 0; i < messagesArray.length; i++){
+
+						 var message = document.createElement('div');
+						 message.textContext = messagesArray[i].name + ": "  + messagesArray[i].message;
+						 messages.appendChild(message);
+					 }
+
+
+
+			 });
+
 
 
 
