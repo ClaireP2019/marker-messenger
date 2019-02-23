@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <title>My Chatroom</title>
+  <style>
+
+		#messages{
+			height: 300px;
+			overflow:scroll;
+		}
+
+		h1, #chat {
+			margin-top: 10%;
+		}
+
+  </style>
+</head>
+
+<body>
+
+
+	<div class="container">
+		<div class="row">
+				<div class="col-md-6 offset-md-3 col-sm-12">
+
+						<h1 class="text-center">
+								My Chatroom
+						</h1>
+
+						<div id="chat">
+								<input type="text" id="username" class="form-control" placeholder="Enter name...">
+								<br>
+								<div class="card">
+										<div id="messages" class="card-block">
+
+										</div>
+								</div>
+								<br>
+								<textarea id="textarea" class="form-control" rows="3" placeholder="Enter message..."></textarea>
+						</div>
+				</div>
+		</div>
+</div>
+
+
+	<!-- Import Socket.io code -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+	<!-- Custom JavaScript -->
+
+	<script>
+        (function(){
+
+					// ⭐️ TO-DO 5 ⭐️
+					//Connect to Socket.io
+					var socket = io();
+
+					if(socket !== undefined){
+					    console.log('Connected to socket...');
+					  }
+
+
+					// ⭐️ TO-DO 6 ⭐️
+					//Get Elements by Id
+var username = document.getElementById('username');
+var messages = document.getElementById('messages');
+var textarea = document.getElementById('textarea');
+
+					// ⭐️ TO-DO 7 ⭐️
+					// Handle Input
+//					textarea.addEventListener('keydown', function(event){
+
+//					    if(event.which === 13){
+//								socket.emit('input', {
+//								name: username.value,
+//								message: textarea.value});
+//					    }
+//							textarea.value = ("");
+//					})
+textarea.addEventListener('keydown', function(event){
+
+					    if(event.which === 13) {
+								//hard coded because it wasn't being nice
+								messages.innerHTML += username.value + " said: <br /> " + textarea.value + "<br />";
+
+								socket.emit('input', {
+								name: username.value,
+								message: textarea.value});
+
+								//resets the textbox so you can enter new text into the chat
+								textarea.value = ("");
+								textarea.focus();
+					    }
+							console.log(event);
+							//textarea.value = ("");
+					})
+
+					// ⭐️ TO-DO 12 ⭐️
+					 // Handle Output
+
+
+
+
+        })();
+    </script>
+
+  </body>
+  </html>
